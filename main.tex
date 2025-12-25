@@ -62,7 +62,7 @@ Agentic security systems---compositions of language models with tools such as st
 
 We introduce \SAGE, a framework for online architecture adaptation of agentic security systems. We formalize adaptation as a Constrained Partially Observable Markov Decision Process where the state includes the agent-tool graph, trace-derived features, and budget-risk meters, while actions correspond to reversible graph edits: adding or removing nodes, rewiring edges, adjusting parameters, and switching model variants. Safety is enforced through two layers: hard structural constraints via projection into an allowed-architecture set mandating guards between untrusted inputs and sensitive tools, and soft risk constraints via Constrained MDP optimization with Lagrangian updates.
 
-We contribute: (1)~a formal C-POMDP specification of architecture adaptation with typed graph actions; (2)~a two-layer safety architecture separating structural invariants from risk budgets; (3)~learning algorithms from constrained contextual bandits to full constrained RL; and (4)~comprehensive evaluation on both synthetic benchmarks ($9.6\times$ improvement over static baselines) and CyberSecEval, where \SAGE achieves $93.1\%$ safety rate---a $21.9\%$ improvement over unguarded systems---while maintaining the highest capability among safe architectures. We provide a reproducible open-source implementation and discuss limitations and responsible deployment.
+We contribute: (1)~a formal C-POMDP specification of architecture adaptation with typed graph actions; (2)~a two-layer safety architecture separating structural invariants from risk budgets; (3)~learning algorithms from constrained contextual bandits to full constrained RL; and (4)~evaluation on synthetic benchmarks ($9.6\times$ improvement over static baselines) and a calibrated simulation study on CyberSecEval task distributions demonstrating that \SAGE's mechanisms achieve higher safety than static and heuristic baselines. We provide a reproducible open-source implementation, define an evaluation protocol for future real-system testing, and discuss limitations and responsible deployment.
 \end{abstract}
 
 \begin{CCSXML}
@@ -598,13 +598,15 @@ Heuristic (threshold) & $0.117 \pm 0.004$ & $0.033$ & $0.00$ & \checkmark \\
 
 This experiment validates that in environments where heuristics fail due to observation noise, adversarial dynamics, or delayed feedback, \SAGE's learned policy with Lagrangian constraint enforcement provides both safety and performance.
 
-\subsection{CyberSecEval Evaluation}
+\subsection{Calibrated Simulation Study on CyberSecEval Tasks}
 
-To evaluate \SAGE on realistic security tasks, we conducted a comprehensive evaluation on CyberSecEval~\cite{bhatt2024cyberseceval2}, Meta's benchmark for LLM security risks and capabilities. We evaluate four task categories: prompt injection resistance, insecure code generation, code interpreter abuse, and vulnerability exploitation capability. We compare \SAGE against three baselines: (1)~Static (No Guard): a single LLM without guardrails, (2)~Static (With Guard): LLM with static input/output guards and code sandbox, and (3)~Heuristic Switching: rule-based architecture adaptation based on observed risk levels.
+To evaluate \SAGE's mechanisms on realistic security task distributions, we conducted a calibrated simulation study based on CyberSecEval~\cite{bhatt2024cyberseceval2}, Meta's benchmark for LLM security risks. This study uses the task structure of CyberSecEval (prompt injection, insecure code generation, code interpreter abuse, vulnerability exploitation) with outcome probabilities calibrated from published benchmark results on GPT-4 and similar models.
+
+\paragraph{Methodology.} We model four architectures: (1)~Static (No Guard): baseline vulnerability rates from CyberSecEval results on unguarded systems; (2)~Static (With Guard): rates adjusted for input/output filtering based on published guard effectiveness; (3)~Heuristic Switching: rule-based adaptation with threshold-based guard activation; and (4)~\SAGE: full Lagrangian constraint enforcement with learned adaptation. Calibration sources include CyberSecEval 2 results showing $\sim$15--20\% prompt injection vulnerability for GPT-4 without guards, $\sim$30\% insecure code generation rates, and $\sim$40\% code interpreter abuse without sandboxing. We run $400$ test cases across categories with $5$ independent runs.
 
 \begin{table}[t]
 \centering
-\caption{CyberSecEval evaluation comparing \SAGE against baselines. Safety rate measures resistance to attacks; Capability measures task completion; Exploit rate measures vulnerability discovery (higher is better for authorized testing). Results averaged over $5$ runs with $400$ test cases each.}
+\caption{Calibrated simulation results on CyberSecEval task distributions. Safety measures attack resistance; Capability measures task completion. Probabilities calibrated from published CyberSecEval results.}
 \label{tab:cyberseceval}
 \begin{tabular}{lrrr}
 \toprule
@@ -613,18 +615,16 @@ Architecture & Safety Rate & Capability & Exploit Rate \\
 Static (No Guard) & $76.4\% \pm 1.2\%$ & $76.1\%$ & $11.8\%$ \\
 Static (With Guard) & $90.9\% \pm 0.9\%$ & $72.0\%$ & $8.0\%$ \\
 Heuristic Switching & $91.2\% \pm 0.8\%$ & $79.4\%$ & $17.4\%$ \\
-\textbf{\SAGE} & $\mathbf{93.1\%} \pm 0.5\%$ & $\mathbf{80.9\%}$ & $\mathbf{18.8\%}$ \\
+\SAGE & $93.1\% \pm 0.5\%$ & $80.9\%$ & $18.8\%$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\tabref{tab:cyberseceval} presents the main results. \SAGE achieves the highest safety rate ($93.1\%$) while simultaneously achieving the highest capability ($80.9\%$) and exploit discovery rate ($18.8\%$). This demonstrates that the Lagrangian constraint enforcement does not sacrifice utility for safety---instead, the adaptive architecture finds configurations that excel at both.
-
-\paragraph{Comparison to baselines.} \SAGE achieves a $21.9\%$ relative improvement in safety over Static (No Guard), demonstrating the value of guardrails. More importantly, \SAGE achieves $2.4\%$ relative improvement over Static (With Guard) and $2.0\%$ over Heuristic Switching, showing that adaptive constraint enforcement outperforms static guards and rule-based adaptation. The Static (With Guard) baseline trades off capability for safety (capability drops from $76.1\%$ to $72.0\%$), while \SAGE maintains high capability through adaptive resource allocation.
+\tabref{tab:cyberseceval} shows that under calibrated assumptions, \SAGE's Lagrangian mechanism achieves the highest safety ($93.1\%$) while maintaining competitive capability ($80.9\%$). The $21.9\%$ relative improvement over unguarded systems and $2.4\%$ over static guards demonstrates that adaptive constraint enforcement provides value beyond fixed defenses.
 
 \begin{table}[t]
 \centering
-\caption{Safety rate breakdown by CyberSecEval task category.}
+\caption{Safety rate by CyberSecEval task category (calibrated simulation).}
 \label{tab:cyberseceval-categories}
 \begin{tabular}{lrrrr}
 \toprule
@@ -633,34 +633,16 @@ Architecture & Prompt Inj. & Insecure Code & Code Interp. & Vuln. Exploit* \\
 Static (No Guard) & $76.6\%$ & $74.6\%$ & $54.4\%$ & $11.8\%$ \\
 Static (With Guard) & $89.6\%$ & $81.4\%$ & $92.6\%$ & $8.0\%$ \\
 Heuristic Switching & $90.2\%$ & $81.6\%$ & $93.2\%$ & $17.4\%$ \\
-\textbf{\SAGE} & $\mathbf{92.2\%}$ & $\mathbf{85.6\%}$ & $\mathbf{94.6\%}$ & $\mathbf{18.8\%}$ \\
+\SAGE & $92.2\%$ & $85.6\%$ & $94.6\%$ & $18.8\%$ \\
 \bottomrule
 \end{tabular}
 \vspace{0.5em}
 \footnotesize{*Vulnerability Exploitation shows capability (higher = better)}
 \end{table}
 
-\tabref{tab:cyberseceval-categories} breaks down performance by task category. Key observations: (1)~\SAGE achieves $92.2\%$ prompt injection resistance, the highest among all systems, demonstrating effective input guard enforcement; (2)~for code interpreter abuse, which poses the highest baseline risk ($54.4\%$ for unguarded systems), \SAGE achieves $94.6\%$ safety through sandbox strengthening; (3)~\SAGE achieves the highest vulnerability exploitation capability ($18.8\%$) among safe systems, showing that the adaptive architecture allocates resources effectively for authorized security testing.
+\tabref{tab:cyberseceval-categories} breaks down by category. \SAGE shows the largest gains on code interpreter abuse ($+40.2$ pp over no guard), where the Lagrangian mechanism dynamically strengthens sandbox restrictions when risk signals spike.
 
-\begin{table}[t]
-\centering
-\caption{Safety rate by task difficulty. \SAGE maintains the smallest degradation on hard tasks.}
-\label{tab:cyberseceval-difficulty}
-\begin{tabular}{lrrr}
-\toprule
-Architecture & Easy & Medium & Hard \\
-\midrule
-Static (No Guard) & $84.7\%$ & $77.1\%$ & $67.1\%$ \\
-Static (With Guard) & $93.2\%$ & $91.5\%$ & $87.9\%$ \\
-Heuristic Switching & $93.8\%$ & $91.8\%$ & $88.0\%$ \\
-\textbf{\SAGE} & $\mathbf{95.3\%}$ & $\mathbf{93.2\%}$ & $\mathbf{90.8\%}$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\tabref{tab:cyberseceval-difficulty} shows performance across difficulty levels. \SAGE maintains the highest safety rate at all difficulty levels, with particularly notable performance on hard tasks ($90.8\%$ vs $87.9\%$ for static guards). The smaller degradation from easy to hard tasks ($4.5$ percentage points for \SAGE vs $5.3$ for static guards) suggests that the Lagrangian mechanism adapts more effectively to challenging inputs.
-
-\paragraph{Key findings.} The CyberSecEval evaluation demonstrates three main findings: (1)~\SAGE achieves state-of-the-art safety across all task categories while maintaining competitive capability, validating the core hypothesis that adaptive architecture with constraint enforcement outperforms static approaches; (2)~the improvement is largest where baseline risk is highest (code interpreter abuse: $+40.2$ percentage points over no guard), showing that \SAGE's safety layer provides the most value in high-risk scenarios; (3)~unlike static guards that sacrifice capability for safety, \SAGE achieves both through adaptive resource allocation guided by the Lagrangian mechanism.
+\paragraph{Limitations and future work.} This simulation study demonstrates that \SAGE's control mechanisms work correctly under calibrated assumptions, but does not constitute evaluation on the actual CyberSecEval benchmark with real LLM inference. Real-system evaluation requires: (1)~LLM API integration with production models; (2)~the full CyberSecEval test suite from Meta; and (3)~agent framework implementation with actual tool execution. We provide our evaluation framework and calibration methodology as open source to enable future real-system evaluation. The simulation results should be interpreted as evidence that the algorithmic mechanisms are sound, not as claims about real-world performance, which remains to be validated.
 
 % =============================================================================
 % SECTION 10: DISCUSSION
