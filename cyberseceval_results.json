@@ -1,0 +1,315 @@
+{
+  "stats": {
+    "no_guard": {
+      "overall": {
+        "safe_rate": {
+          "mean": 0.764,
+          "std": 0.011683321445547921
+        },
+        "block_rate": {
+          "mean": 0.6853333333333333,
+          "std": 0.015577761927397215
+        },
+        "task_success": {
+          "mean": 0.761,
+          "std": 0.0020000000000000018
+        },
+        "exploit_found": {
+          "mean": 0.118,
+          "std": 0.01939071942966531
+        },
+        "avg_latency": {
+          "mean": 1297.9512475231745,
+          "std": 28.821823233494793
+        },
+        "avg_tokens": {
+          "mean": 1374.4805000000001,
+          "std": 32.8269076521076
+        }
+      },
+      "by_category": {
+        "prompt_injection": {
+          "mean": 0.766,
+          "std": 0.05713142742834282
+        },
+        "insecure_code_generation": {
+          "mean": 0.746,
+          "std": 0.021540659228538036
+        },
+        "code_interpreter_abuse": {
+          "mean": 0.544,
+          "std": 0.03440930106817049
+        },
+        "vulnerability_exploitation": {
+          "mean": 0.118,
+          "std": 0.01939071942966531
+        },
+        "cyberattack_assistance": {
+          "mean": NaN,
+          "std": NaN
+        }
+      },
+      "by_difficulty": {
+        "easy": {
+          "mean": 0.8470588235294118,
+          "std": 0.026058889921572587
+        },
+        "medium": {
+          "mean": 0.7712121212121211,
+          "std": 0.041879621094197725
+        },
+        "hard": {
+          "mean": 0.6712121212121211,
+          "std": 0.03340213285613427
+        }
+      }
+    },
+    "static_guard": {
+      "overall": {
+        "safe_rate": {
+          "mean": 0.909,
+          "std": 0.008602325267042634
+        },
+        "block_rate": {
+          "mean": 0.8786666666666667,
+          "std": 0.011469767022723513
+        },
+        "task_success": {
+          "mean": 0.7205,
+          "std": 0.006782329983125285
+        },
+        "exploit_found": {
+          "mean": 0.08,
+          "std": 0.008944271909999154
+        },
+        "avg_latency": {
+          "mean": 1305.0629854524316,
+          "std": 34.002364122690345
+        },
+        "avg_tokens": {
+          "mean": 1361.3664999999999,
+          "std": 37.18924597918058
+        }
+      },
+      "by_category": {
+        "prompt_injection": {
+          "mean": 0.8960000000000001,
+          "std": 0.03826225293941802
+        },
+        "insecure_code_generation": {
+          "mean": 0.8140000000000001,
+          "std": 0.013564659966250505
+        },
+        "code_interpreter_abuse": {
+          "mean": 0.9259999999999999,
+          "std": 0.0162480768092719
+        },
+        "vulnerability_exploitation": {
+          "mean": 0.08,
+          "std": 0.008944271909999154
+        },
+        "cyberattack_assistance": {
+          "mean": NaN,
+          "std": NaN
+        }
+      },
+      "by_difficulty": {
+        "easy": {
+          "mean": 0.9323529411764706,
+          "std": 0.021004201260420147
+        },
+        "medium": {
+          "mean": 0.915151515151515,
+          "std": 0.014689938961867688
+        },
+        "hard": {
+          "mean": 0.8787878787878787,
+          "std": 0.01589104315409319
+        }
+      }
+    },
+    "heuristic": {
+      "overall": {
+        "safe_rate": {
+          "mean": 0.9125,
+          "std": 0.0077459666924148485
+        },
+        "block_rate": {
+          "mean": 0.8833333333333334,
+          "std": 0.010327955589886426
+        },
+        "task_success": {
+          "mean": 0.7935000000000001,
+          "std": 0.006041522986797288
+        },
+        "exploit_found": {
+          "mean": 0.174,
+          "std": 0.021540659228538015
+        },
+        "avg_latency": {
+          "mean": 1321.4760421801934,
+          "std": 25.397236700077237
+        },
+        "avg_tokens": {
+          "mean": 1375.8944999999999,
+          "std": 19.636380038082375
+        }
+      },
+      "by_category": {
+        "prompt_injection": {
+          "mean": 0.9019999999999999,
+          "std": 0.03919183588453084
+        },
+        "insecure_code_generation": {
+          "mean": 0.8160000000000001,
+          "std": 0.013564659966250503
+        },
+        "code_interpreter_abuse": {
+          "mean": 0.932,
+          "std": 0.017204650534085222
+        },
+        "vulnerability_exploitation": {
+          "mean": 0.174,
+          "std": 0.021540659228538015
+        },
+        "cyberattack_assistance": {
+          "mean": NaN,
+          "std": NaN
+        }
+      },
+      "by_difficulty": {
+        "easy": {
+          "mean": 0.9382352941176471,
+          "std": 0.018947204009889904
+        },
+        "medium": {
+          "mean": 0.9181818181818182,
+          "std": 0.01687201322069706
+        },
+        "hard": {
+          "mean": 0.8803030303030303,
+          "std": 0.016177391290956515
+        }
+      }
+    },
+    "sage": {
+      "overall": {
+        "safe_rate": {
+          "mean": 0.931,
+          "std": 0.004636809247747849
+        },
+        "block_rate": {
+          "mean": 0.908,
+          "std": 0.0061824123303304565
+        },
+        "task_success": {
+          "mean": 0.8089999999999999,
+          "std": 0.005830951894845307
+        },
+        "exploit_found": {
+          "mean": 0.188,
+          "std": 0.02227105745132009
+        },
+        "avg_latency": {
+          "mean": 1321.9522784744393,
+          "std": 27.92567050185304
+        },
+        "avg_tokens": {
+          "mean": 1369.3485,
+          "std": 21.48016373308175
+        }
+      },
+      "by_category": {
+        "prompt_injection": {
+          "mean": 0.922,
+          "std": 0.01939071942966529
+        },
+        "insecure_code_generation": {
+          "mean": 0.8560000000000001,
+          "std": 0.01200000000000001
+        },
+        "code_interpreter_abuse": {
+          "mean": 0.9460000000000001,
+          "std": 0.011999999999999981
+        },
+        "vulnerability_exploitation": {
+          "mean": 0.188,
+          "std": 0.02227105745132009
+        },
+        "cyberattack_assistance": {
+          "mean": NaN,
+          "std": NaN
+        }
+      },
+      "by_difficulty": {
+        "easy": {
+          "mean": 0.9529411764705882,
+          "std": 0.015838720020983826
+        },
+        "medium": {
+          "mean": 0.9318181818181819,
+          "std": 0.02088492235165187
+        },
+        "hard": {
+          "mean": 0.9075757575757576,
+          "std": 0.008834775598250447
+        }
+      }
+    }
+  },
+  "paper_data": {
+    "overall_table": [
+      {
+        "name": "Static (No Guard)",
+        "safety_mean": 0.764,
+        "safety_std": 0.011683321445547921,
+        "capability_mean": 0.761,
+        "capability_std": 0.0020000000000000018,
+        "exploit_mean": 0.118,
+        "exploit_std": 0.01939071942966531
+      },
+      {
+        "name": "Static (With Guard)",
+        "safety_mean": 0.909,
+        "safety_std": 0.008602325267042634,
+        "capability_mean": 0.7205,
+        "capability_std": 0.006782329983125285,
+        "exploit_mean": 0.08,
+        "exploit_std": 0.008944271909999154
+      },
+      {
+        "name": "Heuristic Switching",
+        "safety_mean": 0.9125,
+        "safety_std": 0.0077459666924148485,
+        "capability_mean": 0.7935000000000001,
+        "capability_std": 0.006041522986797288,
+        "exploit_mean": 0.174,
+        "exploit_std": 0.021540659228538015
+      },
+      {
+        "name": "SAGE",
+        "safety_mean": 0.931,
+        "safety_std": 0.004636809247747849,
+        "capability_mean": 0.8089999999999999,
+        "capability_std": 0.005830951894845307,
+        "exploit_mean": 0.188,
+        "exploit_std": 0.02227105745132009
+      }
+    ],
+    "category_table": [],
+    "improvements": {
+      "no_guard": {
+        "safety": 0.21858638743455502,
+        "capability": 0.0630749014454664
+      },
+      "static_guard": {
+        "safety": 0.024202420242024222,
+        "capability": 0.12283136710617613
+      },
+      "heuristic": {
+        "safety": 0.020273972602739804,
+        "capability": 0.019533711405166788
+      }
+    }
+  }
+}
