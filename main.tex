@@ -112,7 +112,7 @@ This paper addresses a specific question:
 \emph{How can an agentic security system adapt its own architecture online to maximize security utility under budget and safety constraints, when rewards are only revealed after execution?}
 \end{quote}
 
-The key insight is that architecture decisions---which components to include, how to wire them together, and which variants to deploy---can themselves be treated as \emph{actions} in a sequential decision problem. By formalizing this problem as a Constrained Partially Observable Markov Decision Process and developing algorithms that learn from execution traces while respecting hard structural constraints and soft risk budgets, we can build systems that are both more effective and more trustworthy than fixed architectures.
+The key insight is that architecture decisions---which components to include, how to wire them together, and which variants to deploy---can themselves be treated as \emph{actions} in a sequential decision problem. Crucially, \SAGE operates \emph{during} a security engagement, not just at design time: the system continuously monitors execution traces and adapts its architecture in response to observed conditions such as coverage plateaus, validation failures, or prompt injection alerts. By formalizing this problem as a Constrained Partially Observable Markov Decision Process and developing algorithms that learn from execution traces while respecting hard structural constraints and soft risk budgets, we can build systems that are both more effective and more trustworthy than fixed architectures.
 
 \subsection{Contributions}
 
