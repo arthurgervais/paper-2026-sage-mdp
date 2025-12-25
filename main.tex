@@ -639,6 +639,8 @@ This section situates \SAGE within the broader landscape of related work, highli
 
 \paragraph{Neural architecture search.} Zoph and Le~\cite{zoph2017nas} show that reinforcement learning can discover competitive neural network architectures for image classification. While the action space (layer specifications) and setting (offline optimization for a fixed task) differ substantially from \SAGE (online adaptation in a nonstationary environment), the conceptual precedent establishes that optimization over discrete graph structures is tractable.
 
+\paragraph{Multi-agent system scaling.} Recent work by Kim~\etal~\cite{kim2024scalingagents} derives empirical scaling principles for multi-agent systems, evaluating five canonical architectures (single-agent, centralized, decentralized, independent, hybrid) across diverse benchmarks. They find that coordination benefits are task-contingent: centralized coordination improves performance by $80.9\%$ on parallelizable tasks but degrades performance by $39$--$70\%$ on sequential reasoning tasks. Their predictive model achieves $R^2=0.513$ for selecting the optimal architecture given task properties. This work is complementary to \SAGE: Kim~\etal select the best \emph{static} architecture at design time based on task category, while \SAGE \emph{adapts} architecture dynamically during an engagement as conditions change. Their finding that no single architecture dominates across all tasks motivates online adaptation---if the engagement transitions between task types (e.g., from reconnaissance to exploitation), the optimal architecture may shift, requiring the kind of runtime adaptation \SAGE provides.
+
 \begin{table}[t]
 \centering
 \caption{Comparison of \SAGE with related approaches along key dimensions.}
